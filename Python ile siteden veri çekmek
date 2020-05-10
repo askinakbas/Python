@@ -1,0 +1,33 @@
+from selenium import webdriver
+import time
+from bs4 import BeautifulSoup
+driver = webdriver.Chrome('C:/chromedriver')  # Chrome driver yolu.
+
+
+driver.get('https://veri_cekeceginiz_site.com')
+time.sleep(1)
+username = driver.find_element_by_name("username")
+password = driver.find_element_by_name("password")
+username.send_keys("KULLANICI_ADINIZ")
+password.send_keys("SIFRENIZ")
+#//*[@id="main_table_input_image_cell"]/input
+giris_yap = driver.find_element_by_xpath("//*[@id='main_table_input_image_cell']/input")
+giris_yap.click()
+#//*[@id="StartCenterPageSize"]/option[5]  sitedeki tabloyu 200'lü gösterim modunda açtı.
+sec = driver.find_element_by_xpath("//*[@id='StartCenterPageSize']/option[5]")
+sec.click()
+
+time.sleep(5)
+
+
+
+r = driver.page_source
+soup = BeautifulSoup(r,"lxml")  # sitenin kaynak kodunu çekip lxml ile parçalıyoruz.
+
+
+for i in soup.find_all("td"):
+	
+    print(i.get("href"))
+    a = (i.text)
+    print(a)
+	
